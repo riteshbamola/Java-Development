@@ -1,5 +1,3 @@
-import java.sql.SQLOutput;
-
 class Mobile{
     static String category;   //shared for each object
     String name;

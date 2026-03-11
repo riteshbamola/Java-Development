@@ -29,6 +29,8 @@ class Laptop extends  Computer{
 
 
 //every class is inside a pacakage
+//every class inherit Object class
+
 
 //final variable = finalize a value just like (const) in js
 //final class = finalize the inheritance (stopping further)
