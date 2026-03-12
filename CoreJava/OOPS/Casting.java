@@ -15,7 +15,7 @@ public class Casting{
         Demo obj = (Demo) new Demo2();  //upcasting
 
         obj.show();
-        
+
         Demo obj1 = new Demo();
         Demo2 obj2 = (Demo2) obj1;  //downcasting
         obj2.show1();
