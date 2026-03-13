@@ -11,7 +11,7 @@ public class Threading{
         t1.setPriority(Thread.MAX_PRIORITY -1 );   //set Priority
         System.out.println(t1.getPriority());     //get priority
 
-        
+
 
         //using thread class
         for(int i=0;i<5;i++) {
