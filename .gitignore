@@ -2,3 +2,6 @@ out/
 JavaBackend.iml
 CoreJava.iml
 .idea/
+target/
+*.class
+*.log
