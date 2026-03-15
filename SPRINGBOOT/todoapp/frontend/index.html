@@ -1,0 +1,165 @@
+```html
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Todo App</title>
+
+    <style>
+        body {
+            font-family: Arial;
+            background: #f4f4f4;
+            padding: 40px;
+        }
+
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            width: 700px;
+            margin: auto;
+        }
+
+        input,
+        select,
+        button {
+            padding: 8px;
+            margin: 5px;
+        }
+
+        table {
+            width: 100%;
+            margin-top: 20px;
+            border-collapse: collapse;
+        }
+
+        th,
+        td {
+            border-bottom: 1px solid #ddd;
+            padding: 10px;
+        }
+
+        button {
+            cursor: pointer;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <div class="container">
+
+        <h2>Todo Task Manager</h2>
+
+        <h3>Add Task</h3>
+
+        <input id="id" placeholder="Task ID">
+        <input id="name" placeholder="Task Name">
+        <input id="desc" placeholder="Task Description">
+
+        <select id="status">
+            <option value="PENDING">PENDING</option>
+            <option value="COMPLETED">COMPLETED</option>
+        </select>
+
+        <button onclick="addTask()">Add Task</button>
+
+        <h3>Tasks</h3>
+
+        <button onclick="loadTasks()">Refresh Tasks</button>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Description</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+
+            <tbody id="taskTable"></tbody>
+        </table>
+
+    </div>
+
+    <script>
+
+        const baseURL = "http://localhost:8080/api";
+
+        function addTask() {
+
+            const task = {
+                taskid: document.getElementById("id").value,
+                taskname: document.getElementById("name").value,
+                taskdesc: document.getElementById("desc").value,
+                status: document.getElementById("status").value
+            };
+
+            fetch(baseURL + "/tasks", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(task)
+            })
+                .then(res => res.json())
+                .then(data => {
+                    alert(data.message);
+                    loadTasks();
+                });
+        }
+
+        function loadTasks() {
+
+            fetch(baseURL + "/tasks")
+                .then(res => res.json())
+                .then(tasks => {
+
+                    let table = "";
+
+                    tasks.forEach(t => {
+
+                        table += `
+<tr>
+<td>${t.taskid}</td>
+<td>${t.taskname}</td>
+<td>${t.taskdesc}</td>
+<td>${t.status}</td>
+<td>
+<button onclick="deleteTask(${t.taskid})">Delete</button>
+</td>
+</tr>
+`;
+
+                    });
+
+                    document.getElementById("taskTable").innerHTML = table;
+
+                });
+
+        }
+
+        function deleteTask(id) {
+
+            fetch(baseURL + "/tasks/" + id, {
+                method: "DELETE"
+            })
+                .then(res => res.json())
+                .then(data => {
+                    alert(data.message);
+                    loadTasks();
+                });
+
+        }
+
+        loadTasks();
+
+    </script>
+
+</body>
+
+</html>
+```
