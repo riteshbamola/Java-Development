@@ -1,15 +1,11 @@
 package com.ritesh.springmvc;
 
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpSession;
-import jakarta.websocket.Session;
+import com.ritesh.springmvc.model.Alien;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.AutoConfigureOrder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.DispatcherServlet;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.Arrays;
@@ -18,6 +14,10 @@ import java.util.List;
 
 @Controller
 public class HomeController {
+
+    @Autowired
+    AlienRepo repo;
+
 
     //will create a model object m at first
     @ModelAttribute
@@ -73,23 +73,60 @@ public class HomeController {
     }
 
 
-
-    @RequestMapping("/addalien")
-    public String addAlien(@ModelAttribute("a1") Alien a){
-        return "addalien";
-    }
+//
+//    @RequestMapping("/addalien")
+//    public String addAlien(@ModelAttribute("a1") Alien a){
+//        return "addalien";
+//    }
 
 
 
     //post mapping  == @PostMapping or  @RequestMapping(value = "/addalien",method = RequestMethod.POST)
 
     //get mapping
+//    @GetMapping("/allaliens")
+//    public String getAliens(Model m){
+//        List<Alien> list = Arrays.asList(new Alien(101,"Ritesh"), new Alien(102,"Ayush"));
+//
+//        m.addAttribute("aliens",list);
+//        return "aliens";
+//    }
+
+
+    //using JPARepository
     @GetMapping("/allaliens")
     public String getAliens(Model m){
-        List<Alien> list = Arrays.asList(new Alien(101,"Ritesh"), new Alien(102,"Ayush"));
-
-        m.addAttribute("aliens",list);
+        m.addAttribute("aliens",repo.findAll());
         return "aliens";
     }
+
+    @GetMapping("/getalien")
+    public String getAlien(@RequestParam("id") int id, Model m){
+        m.addAttribute("alien",repo.findById(id));
+        return "alien";
+    }
+
+    @PostMapping("/addalien")
+    public String addAlien(@ModelAttribute("a1") Alien a){
+        repo.save(a);
+        return "addalien";
+    }
+
+    @GetMapping("/getalienbyname")
+    public String getAlienByname(@RequestParam("name") String name, Model m){
+        m.addAttribute("alien",repo.findByAname(name));
+//        m.addAttribute("alien", repo.find(name));    //own function
+        return "alien";
+    }
+
+    @GetMapping("/getalienbynamedesc")
+    public String getAlienByNameDesc(@RequestParam("name") String name, Model m){
+        m.addAttribute("alien",repo.findByAnameOrderByAidDesc(name));
+        return "alien";
+    }
+
+
+
+
 
 }

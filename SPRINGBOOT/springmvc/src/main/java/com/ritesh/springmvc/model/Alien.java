@@ -1,10 +1,16 @@
-package com.ritesh.springmvc;
+package com.ritesh.springmvc.model;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+
+@Entity
 public class Alien {
 
+    @Id
     private int aid;
     private String aname;
 
+    public Alien(){}
     public Alien(int aid, String aname) {
         this.aid = aid;
         this.aname = aname;
