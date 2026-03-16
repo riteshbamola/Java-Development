@@ -22,7 +22,7 @@ public class AlienRestController {
 
     @GetMapping("allaliens")
 //    @ResponseBody
-    public List<Alien> getAliens(Model m){
+    public List<Alien> getAliens(){
         List<Alien> res = repo.findAll();
         return res;
     }
