@@ -49,9 +49,7 @@ public class JWTService {
         return Keys.hmacShaKeyFor(keyBytes);
     }
 
-    public String extractUsername(String token){
-        return extractClaim(token,Claims::getSubject);
-    }
+
     private <T> T extractClaim(String token, Function<Claims,T>claimsResolver)
     {
         final Claims claims =extractAllClaims(token);
@@ -64,7 +62,9 @@ public class JWTService {
                 .parseSignedClaims(token)
                 .getPayload();
     }
-
+    public String extractUsername(String token){
+        return extractClaim(token,Claims::getSubject);
+    }
     public boolean validateToken(String token, UserDetails userDetails) {
         final String userName = extractUsername(token);
         return (userName.equals(userDetails.getUsername()) && !isTokenExpired(token));
