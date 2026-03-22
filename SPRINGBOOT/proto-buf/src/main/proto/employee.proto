@@ -1,0 +1,52 @@
+
+
+syntax = "proto3";
+
+option java_multiple_files=true;
+option java_package="com.ritesh";
+option java_outer_classname="EmployeeProto";
+import "google/protobuf/timestamp.proto";
+package com.ritesh;
+
+message Employee{
+
+  int32  id=1;
+  string name=2;
+  double salary=3;
+  repeated Department departments=4;
+  map<string,string> addressMap=5;
+  bool  isActive=6;
+  bytes profilePicture=7;
+  google.protobuf.Timestamp joinDate=8;
+
+}
+
+message  Department{
+  int32 id=1;
+  string name=2;
+}
+
+// same like Request DTO in java
+//message EmployeeReq{
+//  int32 id=1;
+//}
+
+message EmployeeList{
+  repeated Employee employee=1;
+}
+message Empty {}
+
+service EmployeeService{
+
+//  rpc getEmployee(EmployeeReq) returns (Employee) ;    cannot pass parameters or empty must have to pass a message
+
+  // get Employee
+  rpc getEmployee(Employee) returns (Employee);
+
+  //add Employeee
+  rpc addEmployee(Employee) returns (Employee);
+
+  //get All Employees
+  rpc getAllEmployees(Empty) returns (EmployeeList);      //only message can be send
+
+}
