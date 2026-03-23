@@ -20,6 +20,9 @@ public class StockTradingClientApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
-		System.out.println("gRPC Client Response :  \n" + stockClientService.getStockPrice("AAPL"));
+//		System.out.println("gRPC Client Response :  \n" + stockClientService.getStockPrice("AAPL"));
+//		stockClientService.subscribeStockPrices("AAPL");
+//		stockClientService.placeBulkOrders();
+//		stockClientService.liveTrading();
 	}
 }

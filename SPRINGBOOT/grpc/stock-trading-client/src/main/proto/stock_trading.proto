@@ -16,9 +16,39 @@ message StockResponse{
   string timestamp=3;
 }
 
+message StockOrder{
+  string order_id=1;
+  string stock_symbol=2;
+  int32 quantity=3;
+  double price=4;
+  string order_type=5;
+}
+message OrderSummary{
+  int32 total_orders=1;
+  double amount=2;
+  int32 success_count=3;
+}
+
+message TradeStatus{
+  string order_id=1;
+  string status=2;
+  string message=3;
+  string timestamp=4;
+}
+
 service  StockTradingService{
 
 
   //UNARY - RPC -> get current Stock price
   rpc getStockPrice(StockRequest) returns (StockResponse);
+
+
+  //Server Streaming
+  rpc subscribeStockPrice(StockRequest) returns (stream StockResponse);
+
+  //CLient Streaming
+  rpc bulkStockOrder(stream StockOrder) returns (OrderSummary);
+
+  //bidirectional Streaming
+  rpc liveTrading(stream StockOrder) returns (stream TradeStatus);
 }
